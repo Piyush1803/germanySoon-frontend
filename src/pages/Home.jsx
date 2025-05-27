@@ -95,9 +95,9 @@ const HomePage = () => {
       {/* Contact Section */}
       <div className="flex space-x-6 mt-20 text-2xl">
         {[
-          { icon: <FaInstagram />, link: "https://www.instagram.com/your_instagram_username", color: "hover:text-pink-500" },
-          { icon: <FaEnvelope />, link: "mailto:your_email@example.com", color: "hover:text-blue-400" },
-          { icon: <FaYoutube />, link: "https://www.youtube.com/@your_youtube_channel", color: "hover:text-red-600" }
+          { icon: <FaInstagram />, link: "https://www.instagram.com/who.rahul.sharma?igsh=NGxiaWV5cHJ1dnNr", color: "hover:text-pink-500" },
+          { icon: <FaEnvelope />, link: "mailto:rahulsharmadl22@gmail.com", color: "hover:text-blue-400" },
+          { icon: <FaYoutube />, link: "https://youtube.com/@whorahulsharma?si=2MRrQS1_eiE9H1cj", color: "hover:text-red-600" }
         ].map((social, index) => (
           <a key={index} href={social.link} target="_blank" rel="noopener noreferrer" className={`${social.color} transition-transform hover:scale-110`}>
             {social.icon}
