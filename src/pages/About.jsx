@@ -18,18 +18,18 @@ const About = () => {
 
   <div className="flex flex-col justify-center gap-6 md:w-2/4 text-gray-700">
     <p className="text-lg leading-relaxed">
-      Welcome to <strong className="text-slate-800">Dutchland</strong>: Your Trusted Partner in Career Advising in Germany!
-      At Dutchland, we understand the challenges individuals face when exploring career opportunities and planning their professional future in Germany.
+      Welcome to <strong className="text-slate-800">GermanySoon</strong>: Your Trusted Partner in Career Advising in Germany!
+      At GermanySoon, we understand the challenges individuals face when exploring career opportunities and planning their professional future in Germany.
     </p>
 
     <p className="text-lg leading-relaxed">
-      Dutchland is committed to excellence in career guidance. We continuously strive to enhance our platform, integrating the latest industry insights to improve user experience and deliver superior service. Whether you're starting an Ausbildung, searching for job opportunities, or advancing in your career, Dutchland is here to support you every step of the way.
+      GermanySoon is committed to excellence in career guidance. We continuously strive to enhance our platform, integrating the latest industry insights to improve user experience and deliver superior service. Whether you're starting an Ausbildung, searching for job opportunities, or advancing in your career, GermanySoon is here to support you every step of the way.
     </p>
 
     <h3 className="text-2xl font-semibold text-zinc-800">Our Vision</h3>
 
     <p className="text-lg leading-relaxed">
-      Our vision at <strong className="text-slate-800">Dutchland</strong> is to create a seamless career guidance experience for every individual. We aim to bridge the gap between aspiring professionals and opportunities in Germany, making it easier for you to access the right advice and resources to build a successful future.
+      Our vision at <strong className="text-slate-800">GermanySoon</strong> is to create a seamless career guidance experience for every individual. We aim to bridge the gap between aspiring professionals and opportunities in Germany, making it easier for you to access the right advice and resources to build a successful future.
     </p>
   </div>
 </div>

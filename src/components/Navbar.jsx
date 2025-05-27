@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { assets } from '../assets/assets';
 import { NavLink, useNavigate } from 'react-router-dom';
 import AppointmentModal from './AppointmentModal';
@@ -8,7 +8,12 @@ const Navbar = () => {
 
   return (
     <div className="flex items-center justify-between py-4 mb-5 border-b border-gray-400 text-sm">
-      <img className="w-25 h-12 cursor-pointer" src={assets.logo} alt="Logo" />
+    <img
+  className="w-36 h-16 object-contain cursor-pointer"
+  src={assets.logo}
+  alt="Logo"
+/>
+
       <ul className="hidden md:flex items-start gap-5 font-medium">
         <NavLink to="/" className="group">
           <li className="py-1 hover:text-purple-600 transition-colors">HOME</li>
