@@ -16,7 +16,7 @@ const Navbar = () => {
 
       <ul className="hidden md:flex items-start gap-5 font-medium">
         <NavLink to="/" className="group">
-          <li className="py-1 hover:text-purple-600 transition-colors">HOME</li>
+          <li className="py-1 hover:text-purple-600 transition-colors">HOMEI</li>
           <hr className="border-none h-0.5 bg-purple-600 w-3/5 mx-auto hidden group-hover:block" />
         </NavLink>
         <NavLink to="/about" className="group">
