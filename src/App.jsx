@@ -6,6 +6,7 @@ import SuccessPage from './pages/SuccessPage'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 
+
 function App() {
   return (
     <div className='mx-4 sm:mx-8 lg:mx-16'>
