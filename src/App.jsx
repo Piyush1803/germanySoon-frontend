@@ -10,7 +10,7 @@ function App() {
   const location = useLocation();
   const isHome = location.pathname === "/";
   return (
-    <div className={`'mx-4 sm:mx-8 lg:mx-16'}`}>
+    <div className="w-full">
       {!isHome && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
