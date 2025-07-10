@@ -16,7 +16,7 @@ const AppointmentModal = ({ closeModal }) => {
 
   useEffect(() => {
     // Fetch available dates from backend on load
-    axios.get("http://localhost:8080/api/appointments/available-dates")
+    axios.get("http://localhost:3000/api/appointments/available-dates")
       .then(res => {
         setAvailableDates(res.data.map(dateStr => new Date(dateStr)));
       })
@@ -27,7 +27,7 @@ const AppointmentModal = ({ closeModal }) => {
     setSelectedDate(date);
     setSelectedDateTime(null); // reset selected time when date changes
     const selectedDateStr = date.toLocaleDateString("en-CA"); // e.g., "2025-05-25"
-    axios.get(`http://localhost:8080/api/appointments/available?date=${selectedDateStr}`)
+    axios.get(`http://localhost:3000/api/appointments/available?date=${selectedDateStr}`)
       .then(res => {
         const slotTimes = res.data.map(slot => {
           const [hour, minute, second] = slot.startTime.split(":");
@@ -75,7 +75,7 @@ const AppointmentModal = ({ closeModal }) => {
         name: formData.name,
         email: formData.email
       };
-     const res = await axios.post("http://localhost:8080/api/payments/create-checkout-session", payload);
+     const res = await axios.post("http://localhost:3000/api/payments/create-checkout-session", payload);
 
     if(res.data && res.data.url){
       window.location.href = res.data.url;
