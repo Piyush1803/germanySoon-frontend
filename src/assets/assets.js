@@ -11,12 +11,13 @@ import Nine from './nine.jpg'
 import Ten from './ten.jpg'
 import Eleven from './eleven.jpg'
 import Twelve from './twelve.png'
+import book_appointment_icon from './book_appointment_icon.png'
 
 import dropdown_icon from './dropdown_icon.svg'
 import profile_pic from './profile_pic.png'
 
 
-export const assets ={
+export const assets = {
     logo,
     First,
     Second,
@@ -31,7 +32,8 @@ export const assets ={
     Eleven,
     Twelve,
     dropdown_icon,
-    profile_pic
+    profile_pic,
+    book_appointment_icon
 
 
 }

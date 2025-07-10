@@ -4,6 +4,7 @@ import About from "./pages/About";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { useLocation } from "react-router-dom";
+import GetStarted from "./pages/getStarted";
 
 function App() {
   const location = useLocation();
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route path="/getstarted" element={<GetStarted />} />
       </Routes>
       <Footer />
     </div>

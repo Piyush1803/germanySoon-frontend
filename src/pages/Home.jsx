@@ -88,7 +88,7 @@ const HomePage = () => {
   }, [location, navigate]);
 
   return (
-    <div className="font-sans text-gray-900">
+    <div className="font-sans text-gray-900 overflow-x-hidden w-full">
       {/* 🎥 Video Banner with Navbar */}
       <div className="relative w-full overflow-hidden h-[80vh] sm:h-[100vh]">
         <video
@@ -100,13 +100,16 @@ const HomePage = () => {
           playsInline
         />
 
+        {/* Gradient Overlay for contrast */}
+        <div className="absolute top-0 left-0 w-full h-full z-10 bg-black/70" />
+
         {/* Navbar */}
         <div className="relative z-20">
           <Navbar />
         </div>
 
         {/* Hero Text */}
-        <div className="relative z-20 flex flex-col justify-center items-center text-white h-full text-center px-4">
+        <div className="relative z-30 flex flex-col justify-center items-center text-white h-full text-center px-4 mt-0 md:mt-[-40px]">
           <motion.h1
             className="text-5xl md:text-6xl font-extrabold drop-shadow-md"
             initial={{ opacity: 0, y: -20 }}
@@ -125,13 +128,15 @@ const HomePage = () => {
           </motion.p>
           <motion.button
             whileHover={{ scale: 1.05 }}
-            className="mt-6 px-6 py-3 bg-orange-500 text-white font-semibold rounded-full shadow-lg hover:bg-orange-600"
+            className="mt-6 px-8 py-3 bg-gradient-to-r from-purple-700 via-purple-900 to-gray-900 text-white font-semibold rounded-full border-2 border-white shadow-lg transition-all duration-300 hover:brightness-110"
             onClick={() => setIsModalOpen(true)}
           >
             Book Appointment
           </motion.button>
         </div>
       </div>
+      {/* Extra space below video banner */}
+      <div className="mb-12" />
 
       {/* ✅ Modal Render */}
       {isModalOpen && (
@@ -142,7 +147,7 @@ const HomePage = () => {
       <div className="h-12 bg-white" />
 
       {/* Hero Slider Section */}
-      <div className="relative w-full h-[500px] overflow-hidden -mt-11 z-0">
+      <div className="relative w-full h-[500px] overflow-hidden z-0">
         {slides.map((slide, index) => (
           <motion.div
             key={index}
@@ -164,7 +169,7 @@ const HomePage = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 className="px-6 py-3 bg-orange-500 text-white font-medium rounded-full shadow hover:bg-orange-600"
-                onClick={() => setIsModalOpen(true)}
+                onClick={() => navigate('/getstarted')}
               >
                 Get Started
               </motion.button>
