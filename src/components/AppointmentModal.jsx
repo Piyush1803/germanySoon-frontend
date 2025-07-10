@@ -16,7 +16,7 @@ const AppointmentModal = ({ closeModal }) => {
 
   useEffect(() => {
     // Fetch available dates from backend on load
-    axios.get("http://localhost:3000/api/appointments/available-dates")
+    axios.get("/api/appointments/available-dates")
       .then(res => {
         setAvailableDates(res.data.map(dateStr => new Date(dateStr)));
       })
@@ -27,15 +27,12 @@ const AppointmentModal = ({ closeModal }) => {
     setSelectedDate(date);
     setSelectedDateTime(null); // reset selected time when date changes
     const selectedDateStr = date.toLocaleDateString("en-CA"); // e.g., "2025-05-25"
-    axios.get(`http://localhost:3000/api/appointments/available?date=${selectedDateStr}`)
+    axios.get(`/api/appointments/available?date=${selectedDateStr}`)
       .then(res => {
         const slotTimes = res.data.map(slot => {
-          const [hour, minute, second] = slot.startTime.split(":");
-          const newDate = new Date(date);
-          newDate.setHours(hour, minute, second, 0);
           return {
             id: slot.id,
-            time: newDate,
+            time: new Date(slot.startTime),
             isBooked: slot.is_booked
           };
         });
@@ -75,13 +72,13 @@ const AppointmentModal = ({ closeModal }) => {
         name: formData.name,
         email: formData.email
       };
-     const res = await axios.post("http://localhost:3000/api/payments/create-checkout-session", payload);
+      const res = await axios.post("/api/payments/create-checkout-session", payload);
 
-    if(res.data && res.data.url){
-      window.location.href = res.data.url;
-    }else {
-      throw new Error("Stripe session URL not received.");
-    }
+      if (res.data && res.data.url) {
+        window.location.href = res.data.url;
+      } else {
+        throw new Error("Stripe session URL not received.");
+      }
 
       // alert("Appointment booked successfully!");
       // closeModal();

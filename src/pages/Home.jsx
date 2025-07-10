@@ -4,6 +4,7 @@ import { assets } from "../assets/assets";
 import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
 import AppointmentModal from "../components/AppointmentModal";
+import { useLocation, useNavigate } from "react-router-dom";
 
 // Hero Slider Content
 const slides = [
@@ -73,6 +74,19 @@ const HomePage = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const paymentStatus = queryParams.get("payment");
+    if (paymentStatus === "success") {
+      alert("✅ Payment successful! Your appointment is booked.");
+      // Remove the query param from the URL after showing the alert
+      navigate("/", { replace: true });
+    }
+  }, [location, navigate]);
+
   return (
     <div className="font-sans text-gray-900">
       {/* 🎥 Video Banner with Navbar */}
@@ -137,9 +151,8 @@ const HomePage = () => {
               index === currentSlide ? { opacity: 1, x: 0 } : { opacity: 0 }
             }
             transition={{ duration: 0.8 }}
-            className={`absolute top-0 left-0 w-full h-full flex items-center justify-between px-4 sm:px-6 ${
-              slide.bg
-            } rounded-xl shadow-md ${index === currentSlide ? "z-10" : "z-0"}`}
+            className={`absolute top-0 left-0 w-full h-full flex items-center justify-between px-4 sm:px-6 ${slide.bg
+              } rounded-xl shadow-md ${index === currentSlide ? "z-10" : "z-0"}`}
           >
             <div className="w-1/2 pl-8 space-y-4">
               <h1 className="text-5xl font-extrabold drop-shadow-md">
@@ -237,9 +250,8 @@ const HomePage = () => {
             return (
               <div
                 key={index}
-                className={`flex flex-col md:flex-row items-center gap-10 ${
-                  index % 2 !== 0 ? "md:flex-row-reverse" : ""
-                }`}
+                className={`flex flex-col md:flex-row items-center gap-10 ${index % 2 !== 0 ? "md:flex-row-reverse" : ""
+                  }`}
               >
                 <motion.img
                   {...imgMotion}
