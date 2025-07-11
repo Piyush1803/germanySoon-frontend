@@ -5,7 +5,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 import { useLocation } from "react-router-dom";
-import GetStarted from "./pages/getStarted";
+import GetStarted from "./pages/GetStarted";
 
 function App() {
   const location = useLocation();
