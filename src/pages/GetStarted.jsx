@@ -10,12 +10,12 @@ const GetStarted = () => {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-purple-100 via-white to-yellow-50">
       {/* Hero Section */}
-      <div className="w-full py-16 px-4 bg-gradient-to-r from-purple-700 via-purple-900 to-gray-900 flex flex-col items-center justify-center mb-8 shadow-lg">
+      <div className="w-full py-16 px-4 bg-white flex flex-col items-center justify-center mb-8 shadow-lg">
         <motion.h1
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
-          className="text-4xl md:text-5xl font-extrabold text-white text-center drop-shadow mb-4"
+          className="text-4xl md:text-5xl font-extrabold text-center drop-shadow mb-4 bg-gradient-to-r from-purple-700 via-purple-500 to-yellow-400 bg-clip-text text-transparent"
         >
           Get Started: Your Guide to Ausbildung & Life in Germany
         </motion.h1>
@@ -23,14 +23,14 @@ const GetStarted = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 1 }}
-          className="text-lg md:text-xl text-purple-100 text-center max-w-2xl mx-auto"
+          className="text-lg md:text-xl text-purple-900 text-center max-w-2xl mx-auto"
         >
           Discover how you can move to Germany, join the Ausbildung program, and unlock amazing study and job opportunities. Your new adventure begins here!
         </motion.p>
       </div>
 
       <div className="flex-1 w-full px-2 md:px-0">
-        <div className="max-w-3xl mx-auto space-y-10">
+        <div className="max-w-5xl mx-auto space-y-10">
           <motion.section
             variants={sectionVariants}
             initial="hidden"

@@ -138,16 +138,12 @@ const HomePage = () => {
           </motion.button>
         </div>
       </div>
-      {/* Extra space below video banner */}
-      <div className="mb-12" />
 
       {/* ✅ Modal Render */}
       {isModalOpen && (
         <AppointmentModal closeModal={() => setIsModalOpen(false)} />
       )}
 
-      {/* Spacer */}
-      <div className="h-12 bg-white" />
 
       {/* Hero Slider Section */}
       <div className="relative w-full h-[500px] overflow-hidden z-0">
@@ -159,8 +155,7 @@ const HomePage = () => {
               index === currentSlide ? { opacity: 1, x: 0 } : { opacity: 0 }
             }
             transition={{ duration: 0.8 }}
-            className={`absolute top-0 left-0 w-full h-full flex items-center justify-between px-4 sm:px-6 ${slide.bg
-              } rounded-xl shadow-md ${index === currentSlide ? "z-10" : "z-0"}`}
+            className={`absolute top-0 left-0 w-full h-full flex items-center justify-between px-4 sm:px-6 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl shadow-md ${index === currentSlide ? "z-10" : "z-0"}`}
           >
             <div className="w-1/2 pl-8 space-y-4">
               <h1 className="text-5xl font-extrabold drop-shadow-md">
@@ -188,42 +183,8 @@ const HomePage = () => {
         ))}
       </div>
 
-      {/* 🌐 Social Links */}
-      <motion.div
-        {...fadeInUp}
-        className="flex justify-center gap-8 mt-20 text-2xl"
-      >
-        {[
-          {
-            icon: <FaInstagram />,
-            link: "https://www.instagram.com/who.rahul.sharma?igsh=NGxiaWV5cHJ1dnNr",
-            color: "hover:text-pink-500",
-          },
-          {
-            icon: <FaEnvelope />,
-            link: "mailto:rahulsharmadl22@gmail.com",
-            color: "hover:text-blue-400",
-          },
-          {
-            icon: <FaYoutube />,
-            link: "https://youtube.com/@whorahulsharma?si=2MRrQS1_eiE9H1cj",
-            color: "hover:text-red-600",
-          },
-        ].map((social, index) => (
-          <a
-            key={index}
-            href={social.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`transition-transform hover:scale-110 ${social.color}`}
-          >
-            {social.icon}
-          </a>
-        ))}
-      </motion.div>
-
       {/* About Me Section */}
-      <div className="mt-24 w-full bg-gradient-to-r from-gray-50 to-gray-100 p-8">
+      <div className="mt-0 w-full bg-gradient-to-r from-gray-50 to-gray-100 p-8">
         <motion.h2
           {...fadeInUp}
           className="text-4xl font-bold text-center text-gray-800 mb-16"
