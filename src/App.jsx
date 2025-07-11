@@ -1,24 +1,27 @@
-import React from 'react'
-import Home from './pages/Home'
-import { Route, Routes } from 'react-router-dom'
-import About from './pages/About'
-import SuccessPage from './pages/SuccessPage'
-import Navbar from './components/Navbar'
-import Footer from './components/Footer'
+import Home from "./pages/Home";
+import { Route, Routes } from "react-router-dom";
+import About from "./pages/About";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import ScrollToTop from "./components/ScrollToTop";
+import { useLocation } from "react-router-dom";
+import GetStarted from "./pages/getStarted";
 
 function App() {
+  const location = useLocation();
+  const isHome = location.pathname === "/";
   return (
-    <div className='mx-4 sm:mx-8 lg:mx-16'>
-      <Navbar />
+    <div className="w-full">
+      {!isHome && <Navbar />}
+      <ScrollToTop />
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/about' element={<About />} />
-        <Route path="/success" element={<SuccessPage />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/getstarted" element={<GetStarted />} />
       </Routes>
       <Footer />
-
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
