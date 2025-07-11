@@ -109,7 +109,7 @@ const HomePage = () => {
         </div>
 
         {/* Hero Text */}
-        <div className="relative z-30 flex flex-col justify-center items-center text-white h-full text-center px-4 mt-0 md:mt-[-40px]">
+        <div className="relative z-30 flex flex-col justify-center items-center text-white h-full text-center px-4 mt-[-30px] md:mt-[-80px]">
           <motion.h1
             className="text-5xl md:text-6xl font-extrabold drop-shadow-md"
             initial={{ opacity: 0, y: 50 }}
