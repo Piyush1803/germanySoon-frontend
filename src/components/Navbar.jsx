@@ -2,13 +2,19 @@ import React, { useState } from 'react';
 import { assets } from '../assets/assets';
 import { NavLink, useNavigate } from 'react-router-dom';
 import AppointmentModal from './AppointmentModal';
+import { motion } from 'framer-motion';
 
 const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  // const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div className="flex items-center justify-between py-4 mb-5 text-sm relative bg-transparent">
+    <motion.div
+      className="flex items-center justify-between py-6 mb-5 text-base relative bg-transparent"
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }}
+    >
       <img
         className="w-36 h-14 object-contain cursor-pointer ml-6 md:w-44 md:h-20 md:ml-10"
         src={assets.logo}
@@ -46,7 +52,7 @@ const Navbar = () => {
           </div>
         </>
       )}
-    </div>
+    </motion.div>
   );
 };
 

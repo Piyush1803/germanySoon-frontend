@@ -112,23 +112,26 @@ const HomePage = () => {
         <div className="relative z-30 flex flex-col justify-center items-center text-white h-full text-center px-4 mt-0 md:mt-[-40px]">
           <motion.h1
             className="text-5xl md:text-6xl font-extrabold drop-shadow-md"
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
+            transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }}
           >
             Start Your Journey to Germany
           </motion.h1>
           <motion.p
             className="text-xl mt-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }}
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }}
           >
             Explore Ausbildung, Career & Study Options
           </motion.p>
           <motion.button
             whileHover={{ scale: 1.05 }}
             className="mt-6 px-8 py-3 bg-gradient-to-r from-purple-700 via-purple-900 to-gray-900 text-white font-semibold rounded-full border-2 border-white shadow-lg transition-all duration-300 hover:brightness-110"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }}
             onClick={() => setIsModalOpen(true)}
           >
             Book Appointment
