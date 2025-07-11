@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { FaUser, FaEnvelope, FaCalendarAlt } from "react-icons/fa";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const AppointmentModal = ({ closeModal }) => {
   const [availableDates, setAvailableDates] = useState([]);
@@ -16,7 +18,7 @@ const AppointmentModal = ({ closeModal }) => {
 
   useEffect(() => {
     // Fetch available dates from backend on load
-    axios.get("/api/appointments/available-dates")
+    axios.get(`${API_BASE_URL}/appointments/available-dates`)
       .then(res => {
         setAvailableDates(res.data.map(dateStr => new Date(dateStr)));
       })
@@ -27,7 +29,7 @@ const AppointmentModal = ({ closeModal }) => {
     setSelectedDate(date);
     setSelectedDateTime(null); // reset selected time when date changes
     const selectedDateStr = date.toLocaleDateString("en-CA"); // e.g., "2025-05-25"
-    axios.get(`/api/appointments/available?date=${selectedDateStr}`)
+    axios.get(`${API_BASE_URL}/appointments/available?date=${selectedDateStr}`)
       .then(res => {
         const slotTimes = res.data.map(slot => {
           return {
@@ -72,17 +74,13 @@ const AppointmentModal = ({ closeModal }) => {
         name: formData.name,
         email: formData.email
       };
-      const res = await axios.post("/api/payments/create-checkout-session", payload);
+      const res = await axios.post(`${API_BASE_URL}/payments/create-checkout-session`, payload);
 
       if (res.data && res.data.url) {
         window.location.href = res.data.url;
       } else {
         throw new Error("Stripe session URL not received.");
       }
-
-      // alert("Appointment booked successfully!");
-      // closeModal();
-
     } catch (error) {
       console.error("Error redirecting to payment:", error);
       alert("Failed to initiate. Please try again.");
@@ -90,83 +88,111 @@ const AppointmentModal = ({ closeModal }) => {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-white/5 backdrop-blur-md z-50">
-      <div className="bg-white p-8 rounded-2xl shadow-2xl w-[500px] max-w-full">
-        <h2 className="text-2xl font-bold mb-6 text-center text-purple-600">
-          Book an Appointment
-        </h2>
-
-        <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
-          <input
-            type="text"
-            name="name"
-            placeholder="Your Name"
-            className="border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-purple-400 outline-none"
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="email"
-            name="email"
-            placeholder="Your Email"
-            className="border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-purple-400 outline-none"
-            onChange={handleChange}
-            required
-          />
-
-          <div className="flex flex-col">
-            <label className="mb-1 font-medium">Select Date</label>
-            <DatePicker
-              selected={selectedDate}
-              onChange={handleDateChange}
-              includeDates={availableDates}
-              dateFormat="yyyy-MM-dd"
-              placeholderText="Pick a date"
-              className="border border-gray-300 p-3 rounded-lg w-full"
-              required
-            />
+    <div className="fixed inset-0 flex items-center justify-center z-50">
+      {/* Overlay with fade-in */}
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm animate-fadeIn z-40" onClick={closeModal} />
+      {/* Modal Card with scale/fade animation */}
+      <div className="relative z-50 w-full max-w-lg mx-4 sm:mx-auto animate-scaleIn">
+        <div className="bg-white p-0 rounded-2xl shadow-2xl overflow-hidden">
+          {/* Gradient Header */}
+          <div className="bg-gradient-to-r from-purple-500 via-purple-700 to-purple-900 py-6 px-8 text-center">
+            <h2 className="text-2xl font-bold text-white tracking-wide drop-shadow">Book an Appointment</h2>
           </div>
 
-          {/* Available Slots List */}
-          {selectedDate && (
-            availableSlots.length > 0 ? (
-              <div className="mt-2 text-sm text-gray-600">
-                <p className="font-medium mb-1">Available slots:</p>
-                <ul className="list-disc pl-5">
-                  {availableSlots.map((slot) => (
-                    <li
-                      key={slot.id}
-                      className={`cursor-pointer ${slot.isBooked ? "text-gray-400" : (selectedDateTime?.getTime() === slot.time.getTime() ? "text-purple-600 font-bold" : "text-blue-600")}`}
-                      onClick={() => !slot.isBooked && handleSlotSelect(slot)}
-                    >
-                      {slot.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                      {slot.isBooked && " (Booked)"}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ) : (
-              <div className="mt-2 text-sm text-red-600">
-                <p>No available slots on this date.</p>
-              </div>
-            )
-          )}
+          <form onSubmit={handleSubmit} className="flex flex-col space-y-4 p-8">
+            {/* Name Input with Icon */}
+            <div className="relative">
+              <FaUser className="absolute left-3 top-1/2 -translate-y-1/2 text-purple-400" />
+              <input
+                type="text"
+                name="name"
+                placeholder="Your Name"
+                className="pl-10 border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-purple-400 outline-none bg-gray-50"
+                onChange={handleChange}
+                required
+              />
+            </div>
+            {/* Email Input with Icon */}
+            <div className="relative">
+              <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-purple-400" />
+              <input
+                type="email"
+                name="email"
+                placeholder="Your Email"
+                className="pl-10 border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-purple-400 outline-none bg-gray-50"
+                onChange={handleChange}
+                required
+              />
+            </div>
+            {/* Date Picker with Icon */}
+            <div className="relative flex flex-col">
+              <label className="mb-1 font-medium">Select Date</label>
+              <FaCalendarAlt className="absolute left-3 top-11 text-purple-400" />
+              <DatePicker
+                selected={selectedDate}
+                onChange={handleDateChange}
+                includeDates={availableDates}
+                dateFormat="yyyy-MM-dd"
+                placeholderText="Pick a date"
+                className="pl-10 border border-gray-300 p-3 rounded-lg w-full bg-gray-50"
+                required
+              />
+            </div>
 
-          <button
-            type="submit"
-            className="bg-purple-500 text-white py-3 rounded-lg hover:bg-purple-600 transition text-lg font-medium"
-          >
-            Confirm Booking
-          </button>
-          <button
-            type="button"
-            onClick={closeModal}
-            className="bg-gray-400 text-white py-3 rounded-lg hover:bg-gray-500 transition text-lg font-medium"
-          >
-            Cancel
-          </button>
-        </form>
+            {/* Available Slots List as Pills */}
+            {selectedDate && (
+              availableSlots.length > 0 ? (
+                <div className="mt-2 text-sm text-gray-600">
+                  <p className="font-medium mb-2">Available slots:</p>
+                  <div className="flex flex-wrap gap-2">
+                    {availableSlots.map((slot) => (
+                      <button
+                        type="button"
+                        key={slot.id}
+                        disabled={slot.isBooked}
+                        className={`px-4 py-2 rounded-full border text-base font-semibold transition-all
+                          ${slot.isBooked ? "bg-gray-200 text-gray-400 border-gray-200 cursor-not-allowed" :
+                            (selectedDateTime?.getTime() === slot.time.getTime() ? "bg-purple-600 text-white border-purple-600" : "bg-white text-purple-700 border-purple-400 hover:bg-purple-50 hover:border-purple-600")}
+                        `}
+                        onClick={() => !slot.isBooked && handleSlotSelect(slot)}
+                      >
+                        {slot.time.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' })}
+                        {slot.isBooked && " (Booked)"}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className="mt-2 text-sm text-red-600">
+                  <p>No available slots on this date.</p>
+                </div>
+              )
+            )}
+
+            {/* Buttons */}
+            <button
+              type="submit"
+              className="bg-gradient-to-r from-purple-600 via-purple-700 to-purple-900 text-white py-3 rounded-lg hover:brightness-110 transition text-lg font-semibold shadow-md mt-2"
+            >
+              Confirm Booking
+            </button>
+            <button
+              type="button"
+              onClick={closeModal}
+              className="bg-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-400 transition text-lg font-semibold shadow-sm"
+            >
+              Cancel
+            </button>
+          </form>
+        </div>
       </div>
+      {/* Animations */}
+      <style>{`
+        .animate-fadeIn { animation: fadeIn 0.3s; }
+        .animate-scaleIn { animation: scaleIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes scaleIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+      `}</style>
     </div>
   );
 };
