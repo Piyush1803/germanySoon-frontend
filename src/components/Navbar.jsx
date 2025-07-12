@@ -4,8 +4,7 @@ import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import AppointmentModal from './AppointmentModal';
 import { motion } from 'framer-motion';
 
-const Navbar = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+const Navbar = ({ onBookClick }) => {
   const location = useLocation();
   const isHome = location.pathname === "/";
   // const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -39,7 +38,7 @@ const Navbar = () => {
 
       {/* Desktop Button */}
       <button
-        onClick={() => setIsModalOpen(true)}
+        onClick={onBookClick}
         className={`px-8 py-3 rounded-full font-semibold border-2 hidden md:flex items-center gap-2 mr-6 md:mr-10 transition-colors
           ${isHome ? 'bg-gray-700 text-white border-white hover:bg-gray-900' : 'bg-white text-black border-black hover:bg-gray-100'}`}
       >
@@ -47,14 +46,7 @@ const Navbar = () => {
         <span className="text-sm font-semibold align-middle"> BOOK APPOINTMENT</span>
       </button>
 
-      {isModalOpen && (
-        <>
-          <div className="fixed inset-0 bg-black/60 z-[1000]" />
-          <div className="fixed inset-0 z-[1100] flex items-center justify-center">
-            <AppointmentModal closeModal={() => setIsModalOpen(false)} />
-          </div>
-        </>
-      )}
+      
     </motion.div>
   );
 };
