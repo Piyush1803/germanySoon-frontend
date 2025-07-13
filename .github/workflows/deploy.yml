@@ -27,17 +27,17 @@ jobs:
       - name: Copy Files to VPS via SSH
         uses: appleboy/scp-action@v0.1.3
         with:
-          host: ${{ secrets.VPS_IP }}
-          username: ${{ secrets.VPS_USER }}
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "dist/"
-          target: "/var/www/germanysoon/frontend-prod"
+          target: "/var/www/germanySoon-frontend"
 
       - name: Restart Nginx
         uses: appleboy/ssh-action@v1.0.0
         with:
-          host: ${{ secrets.VPS_IP }}
-          username: ${{ secrets.VPS_USER }}
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             sudo systemctl reload nginx
