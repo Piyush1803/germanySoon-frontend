@@ -105,7 +105,7 @@ const HomePage = () => {
 
         {/* Navbar */}
         <div className="relative z-20">
-          <Navbar />
+          <Navbar onBookClick={() => setIsModalOpen(true)} />
         </div>
 
         {/* Hero Text */}
