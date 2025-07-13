@@ -11,7 +11,7 @@ const fadeIn = (delay = 0) => ({
   },
 });
 
-const About = () => {
+const About = ({ onBookClick }) => {
   return (
     <div className="bg-white text-gray-800 px-4 md:px-10 py-12">
       {/* Header */}
