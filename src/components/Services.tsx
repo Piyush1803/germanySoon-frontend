@@ -44,26 +44,33 @@ const Services = () => {
   return (
     <section id="services" className="py-20 bg-background">
       <div className="container mx-auto px-6">
+        {/* Heading */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
             Comprehensive Services for Your
-            <span className="text-german-gold"> German Journey</span>
+            <span className="text-[#FFC107]"> German Journey</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            From university admission to career placement, we provide end-to-end support 
+            From university admission to career placement, we provide end-to-end support
             to make your transition to Germany seamless and successful.
           </p>
         </div>
 
+        {/* Service Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
-            <Card key={index} className="group hover:shadow-elegant transition-all duration-300 hover:-translate-y-2 bg-gradient-card border-border/50">
+            <Card
+              key={index}
+              className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 bg-white border border-border/30 rounded-xl"
+            >
               <CardHeader>
-                <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-german-gold/20 transition-colors">
-                  <div className="text-primary group-hover:text-german-gold transition-colors">
+                {/* Icon wrapper */}
+                <div className="w-16 h-16 bg-[#FFF3CD] rounded-lg flex items-center justify-center mb-4 group-hover:bg-[#FFC107]/20 transition-colors">
+                  <div className="text-[#FFC107] group-hover:text-[#e6ac00] transition-colors">
                     {service.icon}
                   </div>
                 </div>
+
                 <CardTitle className="text-xl font-semibold text-foreground">
                   {service.title}
                 </CardTitle>
@@ -71,11 +78,12 @@ const Services = () => {
                   {service.description}
                 </CardDescription>
               </CardHeader>
+
               <CardContent>
                 <ul className="space-y-2">
                   {service.features.map((feature, featureIndex) => (
                     <li key={featureIndex} className="flex items-center text-sm text-muted-foreground">
-                      <div className="w-2 h-2 bg-german-gold rounded-full mr-3"></div>
+                      <div className="w-2 h-2 bg-[#FFC107] rounded-full mr-3"></div>
                       {feature}
                     </li>
                   ))}
