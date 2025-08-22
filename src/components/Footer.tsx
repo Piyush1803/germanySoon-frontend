@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { MapPin, Phone, Mail, Heart } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 const Footer = () => {
   const quickLinks = [
@@ -37,10 +38,14 @@ const Footer = () => {
           {/* Company Info */}
           <div className="space-y-6">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-[#FFC107] rounded-lg flex items-center justify-center">
-                <span className="text-primary font-bold text-lg">G</span>
-              </div>
-              <span className="text-xl font-bold">GermanyPath</span>
+              <img
+                src={logo}
+                alt="Germanysoon Logo"
+                className="h-14 w-auto drop-shadow-md"
+              />
+              <span className="text-xl font-bold text-yellow-500 drop-shadow-md">
+                Germany Soon
+              </span>
             </div>
             <p className="text-primary-foreground/80 text-sm leading-relaxed">
               Your trusted partner for studying, working, and living in Germany.
@@ -57,7 +62,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="w-4 h-4 text-[#FFC107]" />
-                <span>info@germanypath.com</span>
+                <span>germanysoon0@gmail.com</span>
               </div>
             </div>
           </div>
@@ -134,7 +139,7 @@ const Footer = () => {
         {/* Bottom Section */}
         <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
           <div className="flex items-center space-x-6 text-sm text-primary-foreground/80">
-            <span>© 2024 GermanyPath. All rights reserved.</span>
+            <span>© 2025 GermanySoon. All rights reserved.</span>
             <a href="#privacy" className="hover:text-[#FFC107] transition-colors">
               Privacy Policy
             </a>

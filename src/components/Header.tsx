@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
-import AppointmentModal from "./AppointmentModal"; // Import modal
+import AppointmentModal from "./AppointmentModal";
+import logo from "@/assets/logo.png";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -22,10 +23,14 @@ const Header = () => {
           <div className="flex items-center justify-between">
             {/* Logo */}
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-[#FFC107] rounded-lg flex items-center justify-center">
-                <span className="text-black font-bold text-lg">G</span>
-              </div>
-              <span className="text-xl font-bold text-[#FFC107]">Germany Soon</span>
+              <img
+                src={logo}
+                alt="Germanysoon Logo"
+                className="h-14 w-auto p-1 bg-white shadow-lg rounded-lg"
+              />
+              <span className="text-xl font-bold text-black drop-shadow-md">
+                Germany Soon
+              </span>
             </div>
 
             {/* Desktop Navigation */}
