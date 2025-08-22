@@ -3,8 +3,8 @@ name: Deploy Frontend
 on:
   push:
     branches:
-      - main   # change to your deployment branch if different
-
+    - main
+    
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
