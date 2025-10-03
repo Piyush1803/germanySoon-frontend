@@ -4,8 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Calendar, Clock, User, Mail, Phone } from "lucide-react";
+import { Calendar } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import consultingImage from "@/assets/consulting-office.jpg";
 
@@ -16,16 +15,13 @@ const QueryForm = () => {
     lastName: "",
     email: "",
     phone: "",
-    serviceType: "",
-    preferredDate: "",
-    preferredTime: "",
     message: ""
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formData.firstName || !formData.lastName || !formData.email) {
+    if (!formData.firstName || !formData.lastName || !formData.email || !formData.message) {
       toast({
         title: "Error",
         description: "Please fill in all required fields.",
@@ -34,27 +30,54 @@ const QueryForm = () => {
       return;
     }
 
-    console.log("Query submitted:", formData);
+    try {
+      const response = await fetch(
+        "https://api.sheety.co/f87695357a26c709f44cd4ecdaa2e07a/germanySoonQueries/sheet1",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            sheet1: {
+              firstName: formData.firstName,
+              lastName: formData.lastName,
+              email: formData.email,
+              phone: formData.phone,
+              message: formData.message
+            }
+          })
+        }
+      );
 
-    toast({
-      title: "Query Submitted!",
-      description: "We'll get back to you shortly regarding your appointment.",
-    });
+      if (!response.ok) {
+        throw new Error("Failed to submit query");
+      }
 
-    setFormData({
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
-      serviceType: "",
-      preferredDate: "",
-      preferredTime: "",
-      message: ""
-    });
+      toast({
+        title: "Query Submitted!",
+        description: "We'll get back to you shortly regarding your appointment."
+      });
+
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        message: ""
+      });
+    } catch (error) {
+      console.error("Sheety API Error:", error);
+      toast({
+        title: "Error",
+        description: "Something went wrong. Please try again later.",
+        variant: "destructive"
+      });
+    }
   };
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [field]: value
     }));
@@ -74,7 +97,6 @@ const QueryForm = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-          {/* Left Section (Image + Info) */}
           <div className="flex flex-col h-full">
             <img
               src={consultingImage}
@@ -115,13 +137,10 @@ const QueryForm = () => {
             </Card>
           </div>
 
-          {/* Right Section (Form) */}
           <Card className="shadow-elegant border-border/50 h-full">
             <CardHeader>
               <CardTitle className="text-foreground">Send Us Your Query</CardTitle>
-              <CardDescription>
-                Fill out the form below and we’ll get back to you shortly.
-              </CardDescription>
+              <CardDescription>Fill out the form below and we’ll get back to you shortly.</CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
