@@ -12,8 +12,8 @@ const Header = () => {
     { name: "Home", href: "#home" },
     { name: "Services", href: "#services" },
     { name: "Why Germany", href: "#why-germany" },
-    { name: "Blog", href: "#blog" },
-    { name: "Contact", href: "#contact" },
+    // { name: "Blog", href: "#blog" },
+    // { name: "Contact", href: "#contact" },
   ];
 
   return (
@@ -81,9 +81,9 @@ const Header = () => {
                   </a>
                 ))}
                 <div className="flex flex-col space-y-2 pt-4">
-                  <Button variant="ghost" size="sm">
+                  {/* <Button variant="ghost" size="sm">
                     Login
-                  </Button>
+                  </Button> */}
                   <Button
                     size="sm"
                     className="bg-[#FFC107] hover:bg-[#e6ac00] text-black font-semibold px-4 py-2 rounded-lg shadow-md"

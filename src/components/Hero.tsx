@@ -1,42 +1,53 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, MapPin, GraduationCap, Briefcase } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import heroImage from "@/assets/hero-germany.jpg";
+import AppointmentModal from "./AppointmentModal";
 
 const Hero = () => {
+  const [showModal, setShowModal] = useState(false);
+
+  const handleSendQuery = () => {
+    const formSection = document.getElementById("query");
+    if (formSection) {
+      formSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image */}
+    <section
+      id="home"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+    >
+      {/* Background */}
       <div className="absolute inset-0 z-0">
         <img
           src={heroImage}
           alt="Beautiful Germany cityscape"
           className="w-full h-full object-cover"
         />
-        {/* Adjusted background tint */}
         <div className="absolute inset-0 bg-black/60"></div>
       </div>
 
       {/* Content */}
-<div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
-  <div className="max-w-3xl mx-auto">
-    <h1 className="mt-24 sm:mt-8 md:mt-10 text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 sm:mb-6 animate-fade-in break-words leading-snug sm:leading-normal md:leading-relaxed">
-      Your Gateway to{" "}
-      <span className="block text-[#FFC107] mt-2">Germany</span>
-    </h1>
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
+        <div className="max-w-3xl mx-auto">
+          <h1 className="mt-24 sm:mt-8 md:mt-10 text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 sm:mb-6 animate-fade-in break-words leading-snug sm:leading-normal md:leading-relaxed">
+            Your Gateway to{" "}
+            <span className="block text-[#FFC107] mt-2">Germany</span>
+          </h1>
 
-    <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 sm:mb-8 text-white/90 animate-fade-in leading-relaxed break-words">
-      Transform your future with world-class education, career opportunities,
-      and an exceptional lifestyle in Germany
-    </p>
-  
-
-
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 sm:mb-8 text-white/90 animate-fade-in leading-relaxed break-words">
+            Transform your future with world-class education, career opportunities,
+            and an exceptional lifestyle in Germany
+          </p>
 
           {/* Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12 animate-fade-in">
             <Button
               size="lg"
               className="group bg-[#FFC107] hover:bg-[#e6ac00] text-black font-semibold px-6 py-3 rounded-xl shadow-lg"
+              onClick={() => setShowModal(true)}
             >
               Book Consultation
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
@@ -45,39 +56,16 @@ const Hero = () => {
             <Button
               size="lg"
               className="bg-white/10 border border-white/30 text-white hover:bg-white/20 px-6 py-3 rounded-xl"
+              onClick={handleSendQuery} // Scroll to QueryForm
             >
-              Learn More
+              Send Query
             </Button>
-          </div>
-
-          {/* Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
-            <div className="flex flex-col items-center animate-slide-in">
-              <div className="w-16 h-16 bg-[#FFC107] rounded-full flex items-center justify-center mb-4">
-                <GraduationCap className="w-8 h-8 text-black" />
-              </div>
-              <div className="text-3xl font-bold mb-2">500+</div>
-              <div className="text-white/80">Students Placed</div>
-            </div>
-
-            <div className="flex flex-col items-center animate-slide-in" style={{ animationDelay: '0.2s' }}>
-              <div className="w-16 h-16 bg-[#FFC107] rounded-full flex items-center justify-center mb-4">
-                <Briefcase className="w-8 h-8 text-black" />
-              </div>
-              <div className="text-3xl font-bold mb-2">95%</div>
-              <div className="text-white/80">Success Rate</div>
-            </div>
-
-            <div className="flex flex-col items-center animate-slide-in" style={{ animationDelay: '0.4s' }}>
-              <div className="w-16 h-16 bg-[#FFC107] rounded-full flex items-center justify-center mb-4">
-                <MapPin className="w-8 h-8 text-black" />
-              </div>
-              <div className="text-3xl font-bold mb-2">50+</div>
-              <div className="text-white/80">Partner Universities</div>
-            </div>
           </div>
         </div>
       </div>
+
+      {/* Appointment Modal */}
+      {showModal && <AppointmentModal closeModal={() => setShowModal(false)} />}
     </section>
   );
 };

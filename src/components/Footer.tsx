@@ -1,158 +1,74 @@
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { MapPin, Phone, Mail, Heart } from "lucide-react";
+import { Instagram, Linkedin, Youtube, Phone, Mail } from "lucide-react";
 import logo from "@/assets/logo.png";
 
 const Footer = () => {
-  const quickLinks = [
-    { name: "About Us", href: "#about" },
-    { name: "Services", href: "#services" },
-    { name: "Why Germany", href: "#why-germany" },
-    { name: "Success Stories", href: "#testimonials" },
-    { name: "Blog", href: "#blog" },
-    { name: "Contact", href: "#contact" }
-  ];
-
-  const services = [
-    { name: "University Admission", href: "#services" },
-    { name: "Career Guidance", href: "#services" },
-    { name: "Visa Assistance", href: "#services" },
-    { name: "Accommodation", href: "#services" },
-    { name: "Lifestyle Integration", href: "#services" },
-    { name: "Community Support", href: "#services" }
-  ];
-
-  const resources = [
-    { name: "Student Guide", href: "#blog" },
-    { name: "Visa Requirements", href: "#blog" },
-    { name: "Cost Calculator", href: "#tools" },
-    { name: "University Rankings", href: "#blog" },
-    { name: "Language Learning", href: "#blog" },
-    { name: "FAQ", href: "#faq" }
-  ];
-
   return (
-    <footer className="bg-[#2C3E50] text-primary-foreground">
-      <div className="container mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Company Info */}
-          <div className="space-y-6">
-            <div className="flex items-center space-x-2">
-              <img
-                src={logo}
-                alt="Germanysoon Logo"
-                className="h-14 w-auto drop-shadow-md"
-              />
-              <span className="text-xl font-bold text-yellow-500 drop-shadow-md">
-                Germany Soon
-              </span>
+    <footer className="bg-[#2C3E50] text-white py-6">
+      <div className="max-w-6xl mx-auto px-6">
+        {/* Grid container with 3 equal columns and gap */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-start">
+
+          {/* Column 1: Logo + Tagline */}
+          <div className="flex flex-col items-center md:items-start">
+            <div className="flex items-center space-x-3 mb-2">
+              <img src={logo} alt="Germany Soon Logo" className="h-12 w-auto" />
+              <h2 className="text-xl font-semibold">Germany Soon</h2>
             </div>
-            <p className="text-primary-foreground/80 text-sm leading-relaxed">
-              Your trusted partner for studying, working, and living in Germany.
-              We provide comprehensive support to make your German dream a reality.
+            <p className="text-sm text-gray-300 leading-relaxed text-center md:text-left">
+              Your pathway to <span className="text-[#FFC107]">Ausbildung in Germany</span>
             </p>
-            <div className="space-y-3 text-sm">
-              <div className="flex items-center space-x-3">
-                <MapPin className="w-4 h-4 text-[#FFC107]" />
-                <span>Friedrichstraße 123, Berlin</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Phone className="w-4 h-4 text-[#FFC107]" />
-                <span>+49 30 123 456 789</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Mail className="w-4 h-4 text-[#FFC107]" />
-                <span>germanysoon0@gmail.com</span>
-              </div>
+          </div>
+
+          {/* Column 2: Contact Info */}
+          <div className="flex flex-col items-center md:items-start md:ml-24">
+            <h3 className="text-lg font-semibold mb-2">Contact Us</h3>
+            <div className="flex items-center gap-2 text-sm mt-1">
+              <Mail className="w-4 h-4 text-[#FFC107]" />
+              <span>germanysoon0@gmail.com</span>
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h3 className="text-lg font-semibold mb-6">Quick Links</h3>
-            <ul className="space-y-3">
-              {quickLinks.map((link, index) => (
-                <li key={index}>
-                  <a
-                    href={link.href}
-                    className="text-primary-foreground/80 hover:text-[#FFC107] transition-colors text-sm"
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {/* Column 3: Social Links */}
+          <div className="flex flex-col items-center md:items-start md:ml-32">
+            <h3 className="text-lg font-semibold mb-2">Follow Us</h3>
+            <div className="flex items-center gap-5 mt-4">
+              {/* Instagram */}
+              <a
+                href="https://www.instagram.com/itzz_rahul.sharma?igsh=MWx5YWx4N2oxMnZ4ZA=="
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-[#FFC107] transition-colors"
+              >
+                <Instagram className="w-6 h-6" />
+              </a>
 
-          {/* Services */}
-          <div>
-            <h3 className="text-lg font-semibold mb-6">Our Services</h3>
-            <ul className="space-y-3">
-              {services.map((service, index) => (
-                <li key={index}>
-                  <a
-                    href={service.href}
-                    className="text-primary-foreground/80 hover:text-[#FFC107] transition-colors text-sm"
-                  >
-                    {service.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+              {/* LinkedIn */}
+              <a
+                href="https://www.linkedin.com/in/your-linkedin-id"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-[#FFC107] transition-colors"
+              >
+                <Linkedin className="w-6 h-6" />
+              </a>
 
-          {/* Resources & Newsletter */}
-          <div>
-            <h3 className="text-lg font-semibold mb-6">Resources</h3>
-            <ul className="space-y-3 mb-6">
-              {resources.map((resource, index) => (
-                <li key={index}>
-                  <a
-                    href={resource.href}
-                    className="text-primary-foreground/80 hover:text-[#FFC107] transition-colors text-sm"
-                  >
-                    {resource.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-
-            <div className="space-y-4">
-              <h4 className="font-medium">Stay Updated</h4>
-              <p className="text-xs text-primary-foreground/80">
-                Get the latest updates and tips for your German journey.
-              </p>
-              <div className="flex space-x-2">
-                <Button
-                  size="sm"
-                  className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold rounded-lg px-4 py-2"
-                >
-                  Subscribe
-                </Button>
-              </div>
+              {/* YouTube */}
+              <a
+                href="https://youtube.com/@whorahulsharma?si=6dj96NdyaHKVI8Xe"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-[#FFC107] transition-colors"
+              >
+                <Youtube className="w-6 h-6" />
+              </a>
             </div>
           </div>
         </div>
 
-        <Separator className="my-8 bg-primary-foreground/20" />
-
-        {/* Bottom Section */}
-        <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
-          <div className="flex items-center space-x-6 text-sm text-primary-foreground/80">
-            <span>© 2025 GermanySoon. All rights reserved.</span>
-            <a href="#privacy" className="hover:text-[#FFC107] transition-colors">
-              Privacy Policy
-            </a>
-            <a href="#terms" className="hover:text-[#FFC107] transition-colors">
-              Terms of Service
-            </a>
-          </div>
-
-          <div className="flex items-center space-x-2 text-sm text-primary-foreground/80">
-            <span>Made with</span>
-            <Heart className="w-4 h-4 text-[#FFC107]" />
-            <span>for students worldwide</span>
-          </div>
+        {/* Bottom Note */}
+        <div className="text-center text-xs text-gray-400 mt-6">
+          © 2025 Germany Soon. All rights reserved. <br />
+          From consultation to settlement — we guide you every step of the way.
         </div>
       </div>
     </footer>

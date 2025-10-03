@@ -15,8 +15,8 @@ const Index = () => {
       <Services />
       <WhyGermany />
       <AppointmentForm />
-      <Blog />
-      <Contact />
+      {/* <Blog /> */}
+      {/* <Contact /> */}
       <Footer />
     </div>
   );
