@@ -5,40 +5,76 @@ const Services = () => {
   const services = [
     {
       icon: <GraduationCap className="w-8 h-8" />,
-      title: "University Admission",
-      description: "Complete guidance for admission to top German universities and programs tailored to your goals.",
-      features: ["Program Selection", "Application Support", "Document Preparation", "Interview Coaching"]
-    },
-    {
-      icon: <Briefcase className="w-8 h-8" />,
-      title: "Career Guidance",
-      description: "Navigate the German job market with expert advice and networking opportunities.",
-      features: ["CV Optimization", "Job Search Strategy", "Interview Preparation", "Networking Events"]
+      title: "Ausbildung Program Guidance",
+      description:
+        "End-to-end assistance in choosing the right Ausbildung profession based on your background and goals.",
+      features: [
+        "Profile Evaluation",
+        "Trade & Course Selection",
+        "Eligibility Check",
+        "Career Planning"
+      ],
     },
     {
       icon: <FileText className="w-8 h-8" />,
-      title: "Visa & Documentation",
-      description: "Streamlined visa processing and document preparation to ensure smooth approval.",
-      features: ["Visa Application", "Document Translation", "Legal Compliance", "Timeline Management"]
-    },
-    {
-      icon: <Home className="w-8 h-8" />,
-      title: "Accommodation",
-      description: "Find the perfect housing solution from student dormitories to private apartments.",
-      features: ["Housing Search", "Contract Review", "Location Guidance", "Move-in Support"]
+      title: "Visa & Documentation Support",
+      description:
+        "Complete help with visa application, document translation, APS, and embassy filing.",
+      features: [
+        "Visa Application",
+        "APS & Translation",
+        "Document Verification",
+        "Embassy Appointment Support"
+      ],
     },
     {
       icon: <Heart className="w-8 h-8" />,
-      title: "Lifestyle Integration",
-      description: "Adapt to German culture and lifestyle with our comprehensive integration support.",
-      features: ["Cultural Orientation", "Language Support", "Social Integration", "Lifestyle Coaching"]
+      title: "German Language Preparation",
+      description:
+        "Guidance and training for A1 to B2 level to meet Ausbildung and visa requirements.",
+      features: [
+        "A1–B2 Courses",
+        "Exam Registration",
+        "Interactive Learning",
+        "Certificate Assistance"
+      ],
+    },
+    {
+      icon: <Briefcase className="w-8 h-8" />,
+      title: "Job Placement & Apprenticeship Matching",
+      description:
+        "We connect you with Ausbildung employers and help you secure apprenticeship contracts.",
+      features: [
+        "Employer Coordination",
+        "Interview Preparation",
+        "Contract Assistance",
+        "Industry Guidance"
+      ],
+    },
+    {
+      icon: <Home className="w-8 h-8" />,
+      title: "Accommodation & Settlement",
+      description:
+        "Support in finding housing and settling smoothly after arriving in Germany.",
+      features: [
+        "Student Housing Search",
+        "Rental Contracts",
+        "Location Guidance",
+        "Move-in Assistance"
+      ],
     },
     {
       icon: <Users className="w-8 h-8" />,
-      title: "Community Support",
-      description: "Join our vibrant community of students and professionals already thriving in Germany.",
-      features: ["Peer Networking", "Mentorship Programs", "Social Events", "Alumni Network"]
-    }
+      title: "On-Arrival & Community Support",
+      description:
+        "From airport assistance to local registration, we stay with you even after you land in Germany.",
+      features: [
+        "Airport Pickup Help",
+        "Local Registration",
+        "Peer Networking",
+        "24x7 Support"
+      ],
+    },
   ];
 
   return (
@@ -47,17 +83,18 @@ const Services = () => {
         {/* Heading */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
-            Comprehensive Services for Your
-            <span className="text-[#FFC107]"> German Journey</span>
+            Complete Support for Your
+            <span className="text-[#FFC107]"> Ausbildung Journey</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            From university admission to career placement, we provide end-to-end support
-            to make your transition to Germany seamless and successful.
+            From program selection and visa processing to language training,
+            placements, and post-arrival support — we guide you at every step of
+            your Ausbildung journey in Germany.
           </p>
         </div>
 
         {/* Service Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md-grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
             <Card
               key={index}
