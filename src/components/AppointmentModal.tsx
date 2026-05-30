@@ -2,221 +2,264 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { motion, AnimatePresence } from "framer-motion";
 import { FaUser, FaEnvelope, FaCalendarAlt } from "react-icons/fa";
+import { X } from "lucide-react";
+import { MagneticButton } from "@/components/effects/MagneticButton";
 
 const API_BASE_URL = "https://germanysoon.com/api";
 
-const AppointmentModal = ({ closeModal }) => {
-    const [availableDates, setAvailableDates] = useState([]);
-    const [availableSlots, setAvailableSlots] = useState([]);
-    const [selectedDate, setSelectedDate] = useState(null);
-    const [selectedDateTime, setSelectedDateTime] = useState(null);
+interface AppointmentModalProps {
+  closeModal: () => void;
+}
 
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-    });
+const AppointmentModal = ({ closeModal }: AppointmentModalProps) => {
+  const [availableDates, setAvailableDates] = useState<Date[]>([]);
+  const [availableSlots, setAvailableSlots] = useState<
+    { id: number; time: Date; isBooked: boolean }[]
+  >([]);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedDateTime, setSelectedDateTime] = useState<Date | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-    useEffect(() => {
-        axios
-            .get(`${API_BASE_URL}/appointments/available-dates`)
-            .then((res) => {
-                setAvailableDates(res.data.map((dateStr) => new Date(dateStr)));
-            })
-            .catch((err) => console.error("Error fetching dates", err));
-    }, []);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+  });
 
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
-        setSelectedDateTime(null);
-
-        const selectedDateStr = date.toLocaleDateString("en-CA");
-        axios
-            .get(`${API_BASE_URL}/appointments/available?date=${selectedDateStr}`)
-            .then((res) => {
-                const slotTimes = res.data.map((slot) => ({
-                    id: slot.id,
-                    time: new Date(slot.startTime),
-                    isBooked: slot.is_booked,
-                }));
-                setAvailableSlots(slotTimes);
-            })
-            .catch((err) => console.error("Error fetching slots", err));
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeModal();
     };
-
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+    document.addEventListener("keydown", handleEscape);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+      document.body.style.overflow = "";
     };
+  }, [closeModal]);
 
-    const handleSlotSelect = (slot) => {
-        setSelectedDateTime(slot.time);
-    };
+  useEffect(() => {
+    axios
+      .get(`${API_BASE_URL}/appointments/available-dates`)
+      .then((res) => {
+        setAvailableDates(res.data.map((dateStr: string) => new Date(dateStr)));
+      })
+      .catch((err) => console.error("Error fetching dates", err));
+  }, []);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+  const handleDateChange = (date: Date | null) => {
+    if (!date) return;
+    setSelectedDate(date);
+    setSelectedDateTime(null);
 
-        if (!selectedDateTime) {
-            alert("Please select a valid date and time.");
-            return;
-        }
-
-        const selectedSlot = availableSlots.find(
-            (slot) =>
-                slot.time.getTime() === selectedDateTime.getTime() && !slot.isBooked
+    const selectedDateStr = date.toLocaleDateString("en-CA");
+    axios
+      .get(`${API_BASE_URL}/appointments/available?date=${selectedDateStr}`)
+      .then((res) => {
+        const slotTimes = res.data.map(
+          (slot: { id: number; startTime: string; is_booked: boolean }) => ({
+            id: slot.id,
+            time: new Date(slot.startTime),
+            isBooked: slot.is_booked,
+          })
         );
+        setAvailableSlots(slotTimes);
+      })
+      .catch((err) => console.error("Error fetching slots", err));
+  };
 
-        if (!selectedSlot) {
-            alert("Selected time is not available. Please choose another time.");
-            return;
-        }
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-        try {
-            const payload = {
-                slotId: selectedSlot.id,
-                name: formData.name,
-                email: formData.email,
-            };
-            const res = await axios.post(
-                `${API_BASE_URL}/payments/create-checkout-session`,
-                payload
-            );
+  const handleSlotSelect = (slot: { time: Date; isBooked: boolean }) => {
+    if (!slot.isBooked) setSelectedDateTime(slot.time);
+  };
 
-            if (res.data && res.data.url) {
-                window.location.href = res.data.url;
-            } else {
-                throw new Error("Stripe session URL not received.");
-            }
-        } catch (error) {
-            console.error("Error redirecting to payment:", error);
-            alert("Failed to initiate. Please try again.");
-        }
-    };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-    return (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
-            {/* Overlay */}
-            <div
-                className="fixed inset-0 bg-black/60 backdrop-blur-sm animate-fadeIn z-40"
-                onClick={closeModal}
-            />
+    if (!selectedDateTime) {
+      alert("Please select a valid date and time.");
+      return;
+    }
 
-            {/* Modal */}
-            <div className="relative z-50 w-full max-w-lg mx-4 sm:mx-auto animate-scaleIn">
-                <div className="bg-white p-0 rounded-2xl shadow-2xl overflow-hidden">
-                    {/* Header */}
-                    <div className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 py-6 px-8 text-center">
-                        <h2 className="text-2xl font-bold text-white tracking-wide drop-shadow">
-                            Book an Appointment
-                        </h2>
-                    </div>
+    const selectedSlot = availableSlots.find(
+      (slot) =>
+        slot.time.getTime() === selectedDateTime.getTime() && !slot.isBooked
+    );
 
-                    {/* Form */}
-                    <form onSubmit={handleSubmit} className="flex flex-col space-y-4 p-8">
-                        {/* Name */}
-                        <div className="relative">
-                            <FaUser className="absolute left-3 top-1/2 -translate-y-1/2 text-yellow-500" />
-                            <input
-                                type="text"
-                                name="name"
-                                placeholder="Your Name"
-                                className="pl-10 border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-yellow-400 outline-none bg-gray-50"
-                                onChange={handleChange}
-                                required
-                            />
-                        </div>
+    if (!selectedSlot) {
+      alert("Selected time is not available. Please choose another time.");
+      return;
+    }
 
-                        {/* Email */}
-                        <div className="relative">
-                            <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-yellow-500" />
-                            <input
-                                type="email"
-                                name="email"
-                                placeholder="Your Email"
-                                className="pl-10 border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-yellow-400 outline-none bg-gray-50"
-                                onChange={handleChange}
-                                required
-                            />
-                        </div>
+    setIsSubmitting(true);
 
-                        {/* Date */}
-                        <div className="relative flex flex-col">
-                            <label className="mb-1 font-medium">Select Date</label>
-                            <FaCalendarAlt className="absolute left-3 top-11 text-yellow-500" />
-                            <DatePicker
-                                selected={selectedDate}
-                                onChange={handleDateChange}
-                                includeDates={availableDates}
-                                dateFormat="yyyy-MM-dd"
-                                placeholderText="Pick a date"
-                                className="pl-10 border border-gray-300 p-3 rounded-lg w-full bg-gray-50"
-                                required
-                            />
-                        </div>
+    try {
+      const payload = {
+        slotId: selectedSlot.id,
+        name: formData.name,
+        email: formData.email,
+      };
+      const res = await axios.post(
+        `${API_BASE_URL}/payments/create-checkout-session`,
+        payload
+      );
 
-                        {/* Slots */}
-                        {selectedDate &&
-                            (availableSlots.length > 0 ? (
-                                <div className="mt-2 text-sm text-gray-600">
-                                    <p className="font-medium mb-2">Available slots:</p>
-                                    <div className="flex flex-wrap gap-2">
-                                        {availableSlots.map((slot) => (
-                                            <button
-                                                type="button"
-                                                key={slot.id}
-                                                disabled={slot.isBooked}
-                                                className={`px-4 py-2 rounded-full border text-base font-semibold transition-all
-                          ${slot.isBooked
-                                                        ? "bg-gray-200 text-gray-400 border-gray-200 cursor-not-allowed"
-                                                        : selectedDateTime?.getTime() ===
-                                                            slot.time.getTime()
-                                                            ? "bg-yellow-500 text-white border-yellow-500"
-                                                            : "bg-white text-yellow-600 border-yellow-400 hover:bg-yellow-50 hover:border-yellow-600"
-                                                    }`}
-                                                onClick={() => !slot.isBooked && handleSlotSelect(slot)}
-                                            >
-                                                {slot.time.toLocaleTimeString("en-GB", {
-                                                    hour: "2-digit",
-                                                    minute: "2-digit",
-                                                    timeZone: "UTC",
-                                                })}
-                                                {slot.isBooked && " (Booked)"}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-                            ) : (
-                                <div className="mt-2 text-sm text-red-600">
-                                    <p>No available slots on this date.</p>
-                                </div>
-                            ))}
+      if (res.data?.url) {
+        window.location.href = res.data.url;
+      } else {
+        throw new Error("Stripe session URL not received.");
+      }
+    } catch (error) {
+      console.error("Error redirecting to payment:", error);
+      alert("Failed to initiate. Please try again.");
+      setIsSubmitting(false);
+    }
+  };
 
-                        {/* Buttons */}
-                        <button
-                            type="submit"
-                            className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 text-white py-3 rounded-lg hover:brightness-110 transition text-lg font-semibold shadow-md mt-2"
-                        >
-                            Confirm Booking
-                        </button>
-                        <button
-                            type="button"
-                            onClick={closeModal}
-                            className="bg-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-400 transition text-lg font-semibold shadow-sm"
-                        >
-                            Cancel
-                        </button>
-                    </form>
-                </div>
+  return (
+    <AnimatePresence>
+      <div
+        className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="appointment-modal-title"
+      >
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black/70 backdrop-blur-md"
+          onClick={closeModal}
+          aria-hidden
+        />
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.95, y: 20 }}
+          transition={{ type: "spring", stiffness: 300, damping: 28 }}
+          className="relative z-[101] w-full max-w-lg overflow-hidden rounded-3xl border border-white/10 bg-card shadow-elegant"
+        >
+          <div className="relative bg-gradient-accent px-8 py-7 text-center">
+            <button
+              type="button"
+              onClick={closeModal}
+              className="absolute right-4 top-4 rounded-full p-2 text-accent-foreground/80 transition-colors hover:bg-black/10 hover:text-accent-foreground"
+              aria-label="Close modal"
+            >
+              <X className="h-5 w-5" />
+            </button>
+            <h2
+              id="appointment-modal-title"
+              className="font-display text-2xl font-bold text-accent-foreground"
+            >
+              Book an Appointment
+            </h2>
+            <p className="mt-1 text-sm text-accent-foreground/80">
+              Select your preferred date and time
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-4 p-8">
+            <div className="relative">
+              <FaUser className="absolute left-3 top-1/2 -translate-y-1/2 text-brand-gold" />
+              <input
+                type="text"
+                name="name"
+                placeholder="Your Name"
+                className="w-full rounded-xl border border-border bg-muted/50 py-3 pl-10 pr-4 outline-none transition-all focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20"
+                onChange={handleChange}
+                required
+                disabled={isSubmitting}
+              />
             </div>
 
-            {/* Animations */}
-            <style>{`
-        .animate-fadeIn { animation: fadeIn 0.3s; }
-        .animate-scaleIn { animation: scaleIn 0.3s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes scaleIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-      `}</style>
-        </div>
-    );
+            <div className="relative">
+              <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-brand-gold" />
+              <input
+                type="email"
+                name="email"
+                placeholder="Your Email"
+                className="w-full rounded-xl border border-border bg-muted/50 py-3 pl-10 pr-4 outline-none transition-all focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20"
+                onChange={handleChange}
+                required
+                disabled={isSubmitting}
+              />
+            </div>
+
+            <div className="relative flex flex-col">
+              <label className="mb-1.5 text-sm font-medium">Select Date</label>
+              <FaCalendarAlt className="absolute left-3 top-11 text-brand-gold" />
+              <DatePicker
+                selected={selectedDate}
+                onChange={handleDateChange}
+                includeDates={availableDates}
+                dateFormat="yyyy-MM-dd"
+                placeholderText="Pick a date"
+                className="w-full rounded-xl border border-border bg-muted/50 py-3 pl-10 pr-4"
+                required
+                disabled={isSubmitting}
+              />
+            </div>
+
+            {selectedDate &&
+              (availableSlots.length > 0 ? (
+                <div className="text-sm">
+                  <p className="mb-2 font-medium">Available slots</p>
+                  <div className="flex flex-wrap gap-2">
+                    {availableSlots.map((slot) => (
+                      <button
+                        type="button"
+                        key={slot.id}
+                        disabled={slot.isBooked || isSubmitting}
+                        className={`rounded-full border px-4 py-2 text-sm font-semibold transition-all ${
+                          slot.isBooked
+                            ? "cursor-not-allowed border-border bg-muted text-muted-foreground"
+                            : selectedDateTime?.getTime() === slot.time.getTime()
+                              ? "border-brand-gold bg-gradient-accent text-accent-foreground shadow-button"
+                              : "border-brand-gold/40 text-brand-gold hover:bg-brand-gold/10"
+                        }`}
+                        onClick={() => handleSlotSelect(slot)}
+                      >
+                        {slot.time.toLocaleTimeString("en-GB", {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          timeZone: "UTC",
+                        })}
+                        {slot.isBooked && " (Booked)"}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <p className="text-sm text-destructive">No available slots on this date.</p>
+              ))}
+
+            <MagneticButton
+              type="submit"
+              disabled={isSubmitting}
+              className="mt-2 w-full rounded-xl bg-gradient-accent py-3.5 text-base font-semibold text-accent-foreground shadow-button disabled:opacity-60"
+            >
+              {isSubmitting ? "Processing..." : "Confirm Booking"}
+            </MagneticButton>
+
+            <button
+              type="button"
+              onClick={closeModal}
+              className="w-full rounded-xl border border-border py-3 text-base font-medium text-muted-foreground transition-colors hover:bg-muted"
+              disabled={isSubmitting}
+            >
+              Cancel
+            </button>
+          </form>
+        </motion.div>
+      </div>
+    </AnimatePresence>
+  );
 };
 
 export default AppointmentModal;
